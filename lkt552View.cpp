@@ -52,12 +52,23 @@ BOOL CLkt552View::PreCreateWindow(CREATESTRUCT& cs)
 
 /////////////////////////////////////////////////////////////////////////////
 // CLkt552View drawing
+extern BITMAPINFO* lpBitsInfo;
 
 void CLkt552View::OnDraw(CDC* pDC)
 {
 	CLkt552Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	// TODO: add draw code for native data here
+	if(lpBitsInfo!=NULL){
+	LPVOID lpBits = (LPVOID)&lpBitsInfo->bmiColors[lpBitsInfo->bmiHeader.biClrUsed];
+	long w = lpBitsInfo->bmiHeader.biWidth;
+	long h = lpBitsInfo->bmiHeader.biHeight;
+	StretchDIBits(
+		pDC->GetSafeHdc(),
+		0,0,w,h,
+		0,0,w,h,
+		lpBits,lpBitsInfo,
+		DIB_RGB_COLORS,SRCCOPY);}
 }
 
 void CLkt552View::OnInitialUpdate()

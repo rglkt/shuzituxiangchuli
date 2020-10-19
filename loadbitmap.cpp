@@ -1,26 +1,32 @@
 #include"stdafx.h"
 #include<math.h>
-void*lpBitsInfo = NULL;
-BOOL loadbitmap(char*bitmap){
+BITMAPINFO* lpBitsInfo;
+BOOL loadbitmap(char*BmpFileName){
 	FILE*fp;
-	BITMAPFILEHEADER bitmapfileheader;
-	BITMAPINFOHEADER bitmapinfoheader;
-	fp = fopen(bitmap,"rb");
+	fp = fopen(BmpFileName,"rb");
 	if(!fp)
 		return FALSE;
+	BITMAPFILEHEADER bitmapfileheader;
+	BITMAPINFOHEADER bitmapinfoheader;
 	fread(&bitmapfileheader,sizeof(BITMAPFILEHEADER),1,fp);
 	fread(&bitmapinfoheader,sizeof(BITMAPINFOHEADER),1,fp);
-	int h = bitmapinfoheader.biHeight;
 	int w = bitmapinfoheader.biWidth;
-	int tColor;
-	if(bitmapinfoheader.biClrUsed == 0)
-		tColor = pow(2,bitmapinfoheader.biClrUsed);
+	int h = bitmapinfoheader.biHeight;
+	DWORD tColor;
+	if(bitmapinfoheader.biClrUsed==0){
+		if(bitmapinfoheader.biBitCount==24)
+			tColor = 0;
+		else
+			tColor =(DWORD)pow(2,bitmapinfoheader.biBitCount); 	
+	}
 	else
 		tColor = bitmapinfoheader.biClrUsed;
 
-	int size = 40 + tColor*4 + (w*bitmapinfoheader.biBitCount+31)/32*4*h;
-	fseek(fp,14,SEEK_SET);
-	lpBitsInfo = malloc(size);
-	fread(lpBitsInfo,size,1,fp);
+	long size = 40+4*tColor+(w*bitmapinfoheader.biBitCount+31)/32*4*h;
+	lpBitsInfo =(BITMAPINFO*) malloc(size);
+	
+	fseek(fp,sizeof(BITMAPFILEHEADER),SEEK_SET);
+	fread((char*)lpBitsInfo,size,1,fp);//!!如果没有将lpBitsInfo转为char*,会发生16色和二值图偏移的情况
+	lpBitsInfo->bmiHeader.biClrUsed = tColor;
 	return TRUE;
 }
