@@ -19,8 +19,7 @@ IMPLEMENT_DYNCREATE(CLkt552Doc, CDocument)
 
 BEGIN_MESSAGE_MAP(CLkt552Doc, CDocument)
 	//{{AFX_MSG_MAP(CLkt552Doc)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
+	ON_COMMAND(bmp_to_gray, Ontogray)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -93,4 +92,10 @@ BOOL CLkt552Doc::OnOpenDocument(LPCTSTR lpszPathName)
 	
 
 	return TRUE;
+}
+extern BITMAPINFO* lpBitsInfo;
+void CLkt552Doc::Ontogray() 
+{
+	// TODO: Add your command handler code here
+
 }

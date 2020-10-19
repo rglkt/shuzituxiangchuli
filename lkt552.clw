@@ -40,7 +40,9 @@ Type=0
 HeaderFile=lkt552View.h
 ImplementationFile=lkt552View.cpp
 Filter=C
-LastObject=CLkt552View
+LastObject=bmp_to_gray
+BaseClass=CScrollView
+VirtualFilter=VWC
 
 
 [CLS:CMainFrame]
@@ -113,11 +115,6 @@ Type=1
 Class=?
 Command1=ID_FILE_NEW
 Command2=ID_FILE_OPEN
-Command3=ID_FILE_SAVE
-Command4=ID_EDIT_CUT
-Command5=ID_EDIT_COPY
-Command6=ID_EDIT_PASTE
-Command7=ID_FILE_PRINT
-Command8=ID_APP_ABOUT
-CommandCount=8
+Command3=bmp_to_gray
+CommandCount=3
 
