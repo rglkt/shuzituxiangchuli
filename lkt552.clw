@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CLkt552Doc
+LastClass=CLkt552View
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "lkt552.h"
@@ -40,7 +40,7 @@ Type=0
 HeaderFile=lkt552View.h
 ImplementationFile=lkt552View.cpp
 Filter=C
-LastObject=bmp_to_gray
+LastObject=CLkt552View
 BaseClass=CScrollView
 VirtualFilter=VWC
 

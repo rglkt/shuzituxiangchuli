@@ -50,6 +50,7 @@ protected:
 protected:
 	//{{AFX_MSG(CLkt552View)
 	afx_msg void Ontogray();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
