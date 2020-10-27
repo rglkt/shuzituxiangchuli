@@ -22,8 +22,11 @@ BEGIN_MESSAGE_MAP(CLkt552View, CScrollView)
 	//{{AFX_MSG_MAP(CLkt552View)
 	ON_COMMAND(bmp_to_gray, Ontogray)
 	ON_WM_LBUTTONDOWN()
+<<<<<<< HEAD
 	ON_WM_MOUSEMOVE()
 	ON_UPDATE_COMMAND_UI(bmp_to_gray, OnUpdatetogray)
+=======
+>>>>>>> dea7637321101d4ad1814172b15e7c7319dc1507
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CScrollView::OnFilePrint)
@@ -134,6 +137,7 @@ void CLkt552View::Ontogray()
 	gray();
 	Invalidate();
 }
+<<<<<<< HEAD
 char* pixel(int i,int j);
 void CLkt552View::OnLButtonDown(UINT nFlags, CPoint point) 
 {
@@ -174,3 +178,12 @@ void CLkt552View::OnUpdatetogray(CCmdUI* pCmdUI)
 	pCmdUI->Enable(bitBitCount==24);
 	
 }
+=======
+void pixel(int i,int j);
+void CLkt552View::OnLButtonDown(UINT nFlags, CPoint point) 
+{
+	// TODO: Add your message handler code here and/or call default
+	pixel(point.y,point.x);
+	CScrollView::OnLButtonDown(nFlags, point);
+}
+>>>>>>> dea7637321101d4ad1814172b15e7c7319dc1507

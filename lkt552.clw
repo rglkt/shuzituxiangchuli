@@ -40,7 +40,7 @@ Type=0
 HeaderFile=lkt552View.h
 ImplementationFile=lkt552View.cpp
 Filter=C
-LastObject=bmp_to_gray
+LastObject=CLkt552View
 BaseClass=CScrollView
 VirtualFilter=VWC
 
