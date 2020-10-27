@@ -21,6 +21,9 @@ IMPLEMENT_DYNCREATE(CLkt552View, CScrollView)
 BEGIN_MESSAGE_MAP(CLkt552View, CScrollView)
 	//{{AFX_MSG_MAP(CLkt552View)
 	ON_COMMAND(bmp_to_gray, Ontogray)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_MOUSEMOVE()
+	ON_UPDATE_COMMAND_UI(bmp_to_gray, OnUpdatetogray)
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CScrollView::OnFilePrint)
@@ -124,37 +127,50 @@ CLkt552Doc* CLkt552View::GetDocument() // non-debug version is inline
 /////////////////////////////////////////////////////////////////////////////
 // CLkt552View message handlers
 
-
+void gray();
 void CLkt552View::Ontogray() 
 {
 	// TODO: Add your command handler code here
-	if (lpBitsInfo==NULL) return;
-	int bitBitCount = lpBitsInfo->bmiHeader.biBitCount;
-	if(bitBitCount!=24) return;
-	int w = lpBitsInfo->bmiHeader.biWidth;
-	int h = lpBitsInfo->bmiHeader.biHeight;
-	int lineBytes = (w*bitBitCount+31)/32*4;
-	int gray_lineBytes = (w*8+31)/32*4;
-	int size = 40+4*256+gray_lineBytes*h;
-	BITMAPINFO* gray_bf = (BITMAPINFO*)malloc(size);
-	BYTE *gray_bits =(BYTE*)&gray_bf->bmiColors[256];
-	gray_bf->bmiHeader = lpBitsInfo->bmiHeader;
-	gray_bf->bmiHeader.biBitCount = 8;
-	gray_bf->bmiHeader.biClrUsed = 256;
-	for(int k=0;k<256;k++){
-		gray_bf->bmiColors[k].rgbBlue=gray_bf->bmiColors[k].rgbGreen=gray_bf->bmiColors[k].rgbRed=k;
-		gray_bf->bmiColors[k].rgbReserved=255;
-	}
-	BYTE*B,*G,*R;
-	for(int i=0;i<h;i++)
-		for(int j=0;j<w;j++){
-				B =(BYTE*)lpBitsInfo->bmiColors+(h-i-1)*lineBytes+j*3;
-				G = B+1;
-				R = G+1;
-				BYTE avg = (*B+*G+*R)/3;
-				*B=*R=*G=avg;
-				*(gray_bits+(h-i-1)*gray_lineBytes+j)=avg;
-	}	 
-	lpBitsInfo = gray_bf;
+	gray();
 	Invalidate();
+}
+char* pixel(int i,int j);
+void CLkt552View::OnLButtonDown(UINT nFlags, CPoint point) 
+{
+	// TODO: Add your message handler code here and/or call default
+	//pixel(point.y,point.x);
+	CScrollView::OnLButtonDown(nFlags, point);
+}
+
+void CLkt552View::OnMouseMove(UINT nFlags, CPoint point) 
+{
+	// TODO: Add your message handler code here and/or call default
+	if (lpBitsInfo!=NULL){
+	char xy[81];
+	//memset(xy,0,100);
+	sprintf(xy,"x:%d y:%d   ",point.x,point.y);
+	char*rgb;
+	rgb = pixel(point.y,point.x);
+	if(rgb!=NULL)
+	{
+	strcat(xy,rgb);
+	((CFrameWnd*)GetParent())->SetMessageText(xy);
+	}
+	}
+
+	CScrollView::OnMouseMove(nFlags, point);
+
+
+}
+
+void CLkt552View::OnUpdatetogray(CCmdUI* pCmdUI) 
+{
+	// TODO: Add your command update UI handler code here
+	if (lpBitsInfo==NULL){
+		pCmdUI->Enable(0);
+		return;
+	}
+	int bitBitCount = lpBitsInfo->bmiHeader.biBitCount;
+	pCmdUI->Enable(bitBitCount==24);
+	
 }

@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CLkt552Doc
+LastClass=CLkt552View
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "lkt552.h"
