@@ -60,17 +60,17 @@ void gray(){
 	}	 
 		lpBitsInfo = gray_bf;
 }
-<<<<<<< HEAD
+
 char* pixel(int i,int j){
 	if (lpBitsInfo==NULL) return NULL;
 	int w = lpBitsInfo->bmiHeader.biWidth;
 	int h = lpBitsInfo->bmiHeader.biHeight;
 	if(j>w||i>h)return NULL;
-=======
+
 void pixel(int i,int j){
 	int w = lpBitsInfo->bmiHeader.biWidth;
 	int h = lpBitsInfo->bmiHeader.biHeight;
->>>>>>> dea7637321101d4ad1814172b15e7c7319dc1507
+
 	int lineBytes = (w*lpBitsInfo->bmiHeader.biBitCount+31)/32*4;
 	char str[256];
 	BYTE*pixel=NULL;
@@ -82,11 +82,8 @@ void pixel(int i,int j){
 		g = *(pixel+1);
 		r = *(pixel+2);
 		sprintf(str,"RGB(%d,%d,%d)",r,g,b);
-<<<<<<< HEAD
+
 		//AfxMessageBox(str);
-=======
-		AfxMessageBox(str);
->>>>>>> dea7637321101d4ad1814172b15e7c7319dc1507
 		break;
 	case 8:
 		pixel = (BYTE*)lpBitsInfo->bmiColors+(h-i-1)*lineBytes+j;
@@ -98,22 +95,15 @@ void pixel(int i,int j){
 		b = lpBitsInfo->bmiColors[*pixel].rgbBlue;
 		sprintf(str,"RGB(%d,%d,%d)",r,g,b);
 		}
-<<<<<<< HEAD
+
 		//AfxMessageBox(str);
-=======
-		AfxMessageBox(str);
->>>>>>> dea7637321101d4ad1814172b15e7c7319dc1507
 		break;
 	case 4:
 		pixel = ((BYTE*)lpBitsInfo->bmiColors+(h-i-1)*lineBytes+j/2);
 		if(j%2==0)
 			*pixel=*pixel>>4;
 		else
-<<<<<<< HEAD
 			*pixel=*pixel&15;
-=======
-			*pixel=*pixel&(240);
->>>>>>> dea7637321101d4ad1814172b15e7c7319dc1507
 		
 		//*pixel = *pixel&(15<<(4*((j+1)%2)));
 		//*pixel = *pixel>>(4*((j+1)%2));
@@ -121,11 +111,7 @@ void pixel(int i,int j){
 		g = lpBitsInfo->bmiColors[*pixel].rgbGreen;
 		b = lpBitsInfo->bmiColors[*pixel].rgbBlue;
 		sprintf(str,"RGB(%d,%d,%d)",r,g,b);
-<<<<<<< HEAD
 		//AfxMessageBox(str);
-=======
-		AfxMessageBox(str);
->>>>>>> dea7637321101d4ad1814172b15e7c7319dc1507
 		break;
 
 	case 1:
@@ -135,14 +121,9 @@ void pixel(int i,int j){
 			sprintf(str,"%s","Ç°¾°");
 		else
 			sprintf(str,"%s","±³¾°");
-<<<<<<< HEAD
+
 		//AfxMessageBox(str);
 		break;
 	}
 	return str;
-=======
-		AfxMessageBox(str);
-		break;
-	}
->>>>>>> dea7637321101d4ad1814172b15e7c7319dc1507
 }

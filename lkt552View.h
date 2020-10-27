@@ -51,11 +51,8 @@ protected:
 	//{{AFX_MSG(CLkt552View)
 	afx_msg void Ontogray();
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-<<<<<<< HEAD
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	afx_msg void OnUpdatetogray(CCmdUI* pCmdUI);
-=======
->>>>>>> dea7637321101d4ad1814172b15e7c7319dc1507
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
