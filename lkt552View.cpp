@@ -137,7 +137,7 @@ void CLkt552View::Ontogray()
 	Invalidate();
 }
 
-char* pixel(int i,int j);
+void pixel(int i,int j,char*str);
 void CLkt552View::OnLButtonDown(UINT nFlags, CPoint point) 
 {
 	// TODO: Add your message handler code here and/or call default
@@ -148,22 +148,16 @@ void CLkt552View::OnLButtonDown(UINT nFlags, CPoint point)
 void CLkt552View::OnMouseMove(UINT nFlags, CPoint point) 
 {
 	// TODO: Add your message handler code here and/or call default
-	if (lpBitsInfo!=NULL){
+	if (lpBitsInfo==NULL)return;
 	char xy[81];
-	//memset(xy,0,100);
+	memset(xy,0,81);
 	sprintf(xy,"x:%d y:%d   ",point.x,point.y);
-	char*rgb;
-	rgb = pixel(point.y,point.x);
-	if(rgb!=NULL)
-	{
+	char rgb[81];
+	memset(rgb,0,81);
+	pixel(point.y,point.x,(char*)rgb);
 	strcat(xy,rgb);
 	((CFrameWnd*)GetParent())->SetMessageText(xy);
-	}
-	}
-
 	CScrollView::OnMouseMove(nFlags, point);
-
-
 }
 
 void CLkt552View::OnUpdatetogray(CCmdUI* pCmdUI) 
@@ -177,11 +171,5 @@ void CLkt552View::OnUpdatetogray(CCmdUI* pCmdUI)
 	pCmdUI->Enable(bitBitCount==24);
 	
 }
-void pixel(int i,int j);
-void CLkt552View::OnLButtonDown(UINT nFlags, CPoint point) 
-{
-	// TODO: Add your message handler code here and/or call default
-	pixel(point.y,point.x);
-	CScrollView::OnLButtonDown(nFlags, point);
-}
+
 

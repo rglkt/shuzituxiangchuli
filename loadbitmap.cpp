@@ -61,23 +61,19 @@ void gray(){
 		lpBitsInfo = gray_bf;
 }
 
-char* pixel(int i,int j){
-	if (lpBitsInfo==NULL) return NULL;
+void pixel(int i,int j,char*str){
+	if (lpBitsInfo==NULL) return;
 	int w = lpBitsInfo->bmiHeader.biWidth;
 	int h = lpBitsInfo->bmiHeader.biHeight;
-	if(j>w||i>h)return NULL;
-
-void pixel(int i,int j){
-	int w = lpBitsInfo->bmiHeader.biWidth;
-	int h = lpBitsInfo->bmiHeader.biHeight;
-
+	if(j>w||i>h)return;
 	int lineBytes = (w*lpBitsInfo->bmiHeader.biBitCount+31)/32*4;
-	char str[256];
+	//char str[256];
 	BYTE*pixel=NULL;
+	int pi;
 	int r,g,b;
 	switch(lpBitsInfo->bmiHeader.biBitCount){
 	case 24:
-		pixel = (BYTE*)lpBitsInfo->bmiColors+(h-i-1)*lineBytes+j*3;
+		pixel = (BYTE*)&lpBitsInfo->bmiColors[lpBitsInfo->bmiHeader.biClrUsed]+(h-i-1)*lineBytes+j*3;
 		b = *pixel;
 		g = *(pixel+1);
 		r = *(pixel+2);
@@ -86,7 +82,7 @@ void pixel(int i,int j){
 		//AfxMessageBox(str);
 		break;
 	case 8:
-		pixel = (BYTE*)lpBitsInfo->bmiColors+(h-i-1)*lineBytes+j;
+		pixel = (BYTE*)&lpBitsInfo->bmiColors[lpBitsInfo->bmiHeader.biClrUsed]+(h-i-1)*lineBytes+j;
 		if(lpBitsInfo->bmiColors[128].rgbRed==128&&lpBitsInfo->bmiColors[128].rgbGreen==128&&lpBitsInfo->bmiColors[128].rgbBlue==128)
 			sprintf(str,"»Ò¶ÈÍ¼£¬ÁÁ¶È£º%d",*pixel);
 		else{
@@ -95,16 +91,15 @@ void pixel(int i,int j){
 		b = lpBitsInfo->bmiColors[*pixel].rgbBlue;
 		sprintf(str,"RGB(%d,%d,%d)",r,g,b);
 		}
-
 		//AfxMessageBox(str);
 		break;
 	case 4:
-		pixel = ((BYTE*)lpBitsInfo->bmiColors+(h-i-1)*lineBytes+j/2);
+		pixel =(BYTE*)&lpBitsInfo->bmiColors[lpBitsInfo->bmiHeader.biClrUsed]+(h-i-1)*lineBytes+j/2;
+		pi=*pixel;
 		if(j%2==0)
-			*pixel=*pixel>>4;
+			pi=pi>>4;
 		else
-			*pixel=*pixel&15;
-		
+			pi=pi&15;
 		//*pixel = *pixel&(15<<(4*((j+1)%2)));
 		//*pixel = *pixel>>(4*((j+1)%2));
 		r = lpBitsInfo->bmiColors[*pixel].rgbRed;
@@ -115,15 +110,14 @@ void pixel(int i,int j){
 		break;
 
 	case 1:
-		pixel = ((BYTE*)lpBitsInfo->bmiColors+(h-i-1)*lineBytes+j/8);
-		*pixel = *pixel&(1<<(7-j%8));
-		if(*pixel!=0)
-			sprintf(str,"%s","Ç°¾°");
-		else
+		pixel =(BYTE*)&lpBitsInfo->bmiColors[lpBitsInfo->bmiHeader.biClrUsed]+(h-i-1)*lineBytes+j/8;
+		pi = *pixel;
+		pi = pi&(1<<(7-j%8));
+		if(pi==0)
 			sprintf(str,"%s","±³¾°");
-
+		else
+			sprintf(str,"%s","Ç°¾°");
 		//AfxMessageBox(str);
 		break;
 	}
-	return str;
 }
